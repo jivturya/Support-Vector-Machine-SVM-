@@ -1,0 +1,29 @@
+rm(list=ls())
+
+#Read data
+data=read.csv("M:/OMSA/ISYE6501/HW1/credit_card_data.csv")
+
+#load library
+library(kernlab)
+
+#define model in ksvm
+model=ksvm(as.matrix(data[,1:10]),as.factor(data[,11]),scaled=TRUE,type="C-svc",kernel="vanilladot",C=1000000)
+
+#output model
+model
+
+#calculcate am values
+a=colSums(model@xmatrix[[1]]*model@coef[[1]])
+a
+
+#calculcate a0
+a0=model@b
+a0
+
+#predict model
+pred=predict(model,data[,1:10])
+pred
+
+#verify what % of data predictions match current predictions
+sum(pred==data[,11])/nrow(data)
+
